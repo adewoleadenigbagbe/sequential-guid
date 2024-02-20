@@ -1,4 +1,4 @@
-module github.com/adewoleadenigbagbe/sequentialguid
+module github.com/adewoleadenigbagbe/sequential-guid
 
 go 1.20
 
