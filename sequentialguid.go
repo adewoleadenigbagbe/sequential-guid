@@ -37,7 +37,7 @@ func (guid SequentialGuid) New() uuid.UUID {
 
 	err := binary.Write(buf, Endianess, unixNano)
 	if err != nil {
-		log.Fatalln("binary.Write failed:", err)
+		log.Fatal("binary.Write failed:", err)
 	}
 
 	timestampBytes := buf.Bytes()
@@ -62,7 +62,7 @@ func (guid SequentialGuid) New() uuid.UUID {
 
 	newuuid, err := uuid.FromBytes(guidBytes)
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatal(err)
 	}
 
 	return newuuid
