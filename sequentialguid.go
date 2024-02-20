@@ -12,9 +12,7 @@ import (
 
 const INT_SIZE int = int(unsafe.Sizeof(0))
 
-var Endianess binary.ByteOrder
-
-type SequentialGuid uuid.UUID
+var endianess binary.ByteOrder
 
 // New creates a sequential guid that can be used as the primary key to solve the randomness of Globally Unique Identifier (GUID or UUID).
 // By RFC 4122, the standard GUID is 16 bytes, the first 6 bytes is generated from UTC timestamp and the next 10 bytes are generated randomly,
@@ -22,19 +20,19 @@ type SequentialGuid uuid.UUID
 //
 // Follow up article link: https://www.codeproject.com/Articles/388157/GUIDs-as-fast-primary-keys-under-multiple-database.
 // Golang implementation of code written in C#
-func (guid SequentialGuid) New() uuid.UUID {
+func NewSequentialGuid() uuid.UUID {
 	unixNano := time.Now().UTC().UnixMilli() / 10000
 	randomBytes := []byte(uuid.New().String())
 
 	buf := new(bytes.Buffer)
 
 	if !isBigEndian() {
-		Endianess = binary.LittleEndian
+		endianess = binary.LittleEndian
 	} else {
-		Endianess = binary.BigEndian
+		endianess = binary.BigEndian
 	}
 
-	err := binary.Write(buf, Endianess, unixNano)
+	err := binary.Write(buf, endianess, unixNano)
 	if err != nil {
 		log.Fatal("binary.Write failed:", err)
 	}
